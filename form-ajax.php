@@ -132,7 +132,7 @@ else: ?><!DOCTYPE html>
         (function(){
 
             // Set variables
-            const FORM = document.getElementById('form'); // The form
+            const FORM = document.getElementById('form'); // The form element
             const formProgress = {}; // Tracks what has been filled out in the form
             let formSubmit = false; // If the form is submitted
             let formLabel = ''; // Label to send in event, built from the different forms
@@ -142,31 +142,32 @@ else: ?><!DOCTYPE html>
             /**
              * Clears all form data
              */
-            function clearForm(myFormElement) {
-                const elements = myFormElement.elements;
+            const clearForm = form => {
+                // Get the form's child elements
+                const formChildren = form.elements;
+
+                // Reset the form
                 myFormElement.reset();
 
-                for(i=0; i<elements.length; i++) {
-                    field_type = elements[i].type.toLowerCase();
+                // Loop through all form elements and clear the current values
+                for(i=0; i<formChildren.length; i++) {
+                    field_type = formChildren[i].type.toLowerCase();
                     switch(field_type) {
                         case "text":
                         case "password":
                         case "textarea":
-                            elements[i].value = "";
+                            formChildren[i].value = "";
                             break;
-
                         case "radio":
                         case "checkbox":
-                            if (elements[i].checked) {
-                                elements[i].checked = false;
+                            if (formChildren[i].checked) {
+                                formChildren[i].checked = false;
                             }
                             break;
-
                         case "select-one":
                         case "select-multi":
-                            elements[i].selectedIndex = -1;
+                            formChildren[i].selectedIndex = -1;
                             break;
-
                         default:
                             break;
                     }
@@ -185,23 +186,20 @@ else: ?><!DOCTYPE html>
 
             // Focus event
             FORM.addEventListener('focusin', event => {
-
+                // Clear the submitted successfully message
                 if (errorMessage.innerText === 'Thank you for submitting the form'){
                     errorMessage.innerText = '';
                 }
-
                 // Check element type
                 const validElements = ['INPUT', 'TEXTAREA'];
                 if (!validElements.includes(event.target.nodeName)){
                     return;
                 }
-                
                 // Check input type is correct
                 const invalidTypes = ['checkbox', 'radio', 'submit'];
                 if ( event.target.nodeName === 'INPUT' && invalidTypes.includes(event.target.type) ){
                     return;
                 }
-                
                 // Update progress
                 // If the field hasn't been filled out add it to the label and then set the progress to true
                 if (!formProgress[event.target.name]){
@@ -217,7 +215,8 @@ else: ?><!DOCTYPE html>
                 // Only use fetch if it is supported
                 if (typeof fetch === 'function'){
                     event.preventDefault();
-
+                    
+                    // Set variables for the fetch request
                     const url = FORM.action;
                     const formData = new FormData(FORM);
                     const formParams = new URLSearchParams(formData);
@@ -229,7 +228,7 @@ else: ?><!DOCTYPE html>
                         }),
                         body: formParams,
                     })
-                        .then(resp=>resp.json())
+                        .then(resp=>resp.json()) // get json from response
                         .then(json=>{
                             if (json.error == false){
                                 // The form was submitted correctly

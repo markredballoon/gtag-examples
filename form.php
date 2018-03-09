@@ -123,22 +123,6 @@ if ( isset($_GET['work']) ){
         // Immediatly envocing function to preserve global namespace
         (function(){
 
-            <? if($form_submitted): ?>
-            <? if($form_error): ?>
-            // The form was submitted but the information was incorrect
-            gtag('event', 'form submission', {
-                'event_category': 'Contact Form',
-                'event_label': 'error'
-            });
-            <? else: ?>
-            // The form was submitted correctly
-            gtag('event', 'form submission', {
-                'event_category': 'Contact Form',
-                'event_label': 'submission'
-            });
-            <? endif; ?>
-            <? endif; ?>
-
             // Set variables
             const FORM = document.getElementById('form'); // The form
             const formProgress = {}; // Tracks what has been filled out in the form
@@ -189,14 +173,14 @@ if ( isset($_GET['work']) ){
                 'event_label': 'submission'
             });
             <? endif; ?>
-            <? else: ?>
+            <? else: // Only track impressions on users who haven't already tried to submit the form. ?>
             // Check if the user has seen the form
             const checkImpression = event => {
                 // If the top of the form is above the bottom of the page. 
                 // at least 40px must be visible to count as a view
                 if (FORM.getBoundingClientRect().top < window.innerHeight - 40){
-                    formImpression = true;
                     window.removeEventListener('scroll', checkImpression);
+                    formImpression = true;
                     gtag('event', 'form impression', {
                         'event_category': 'Contact Form',
                         'event_label': 'viewed contact form',
@@ -204,10 +188,8 @@ if ( isset($_GET['work']) ){
                     });
                 }
             }
+            window.addEventListener('scroll', checkImpression, {passive: true})
             checkImpression();
-            if (!formImpression){
-                window.addEventListener('scroll', checkImpression, {passive: true})
-            }
             <? endif; ?>
 
             // Add event listener for the unload event
