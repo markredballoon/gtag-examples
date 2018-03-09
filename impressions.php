@@ -137,6 +137,7 @@
                  * @param {Int} value optional
                  */
                 constructor(element, category, label, value){
+                    // Record arguments
                     this.element = element;
                     this.data = {
                         'event_category': category,
@@ -146,27 +147,38 @@
                     if (value !== undefined){
                         this.data.value = value;
                     }
-                    this.impressionRecorded = false;
+                    
+                    // Bound event handler
                     this.scrollHandler = event => {
                         this.checkImpression();
                     }
+
+                    // set up event handler
                     window.addEventListener('scroll', this.scrollHandler, {passive: true})
+                    // Check if impression already made
                     this.checkImpression();
                 }
-                checkImpression(event){
+                /**
+                 * Check if impression has been made
+                 */
+                checkImpression(){
+                    // If the element is on the screen and has at least 40px showing
                     if (this.element.getBoundingClientRect().top < window.innerHeight - 40){
                         this.impressionRecorded = true;
+                        this.trackImpression();
+                        // Remove scroll handler. Impression already made
                         window.removeEventListener('scroll', this.scrollHandler);
-                        gtag('event', 'impression', {
-                            'event_category': 'Contact Form',
-                            'event_label': 'viewed contact form',
-                            'non_interaction': true
-                        });
                     }
+                }
+                /**
+                 * Send impression to google analytics
+                 */
+                trackImpression(){
+                    gtag('event', 'impression', this.data);
                 }
             }
             const articleFooter = document.querySelector('.article-footer');
-            new RecordImpression(articleFooter);
+            new RecordImpression(articleFooter, 'Article Page', 'viewed article footer');
         })();
     </script>
 </body>
