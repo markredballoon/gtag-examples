@@ -1,10 +1,10 @@
+<!DOCTYPE html>
 <html>
-
 <head>
-  <title>Prototype Index</title>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GTAG Examples</title>
   <link rel="stylesheet" href="./default.css">
   <style>
     .wrap{
@@ -34,7 +34,7 @@
 
 <body>
   <div class="wrap">
-    <h1>Examples</h1>
+    <h1>GTAG Examples</h1>
     <nav>
       <ul>
         <?php 

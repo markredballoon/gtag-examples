@@ -137,7 +137,7 @@ else: ?><!DOCTYPE html>
             let formSubmit = false; // If the form is submitted
             let formLabel = ''; // Label to send in event, built from the different forms
             let formImpression = false; // Track if the user has seen the form
-            let errorMessage = document.createElement('p'); // Error message element
+            let feedbackMessage = document.createElement('p'); // Error message element
                 
             /**
              * Clears all form data
@@ -147,7 +147,7 @@ else: ?><!DOCTYPE html>
                 const formChildren = form.elements;
 
                 // Reset the form
-                myFormElement.reset();
+                form.reset();
 
                 // Loop through all form elements and clear the current values
                 for(i=0; i<formChildren.length; i++) {
@@ -180,16 +180,15 @@ else: ?><!DOCTYPE html>
                 hiddenField.type = 'hidden';
                 hiddenField.name = '_form_ajax';
 
-                FORM.appendChild(errorMessage);
+                FORM.appendChild(feedbackMessage);
                 FORM.appendChild(hiddenField);
             }
 
             // Focus event
             FORM.addEventListener('focusin', event => {
-                // Clear the submitted successfully message
-                if (errorMessage.innerText === 'Thank you for submitting the form'){
-                    errorMessage.innerText = '';
-                }
+                // Clear the feedback message
+                feedbackMessage.innerText = '';
+
                 // Check element type
                 const validElements = ['INPUT', 'TEXTAREA'];
                 if (!validElements.includes(event.target.nodeName)){
@@ -236,7 +235,7 @@ else: ?><!DOCTYPE html>
                                     'event_category': 'Contact Form',
                                     'event_label': 'submission'
                                 });
-                                errorMessage.innerText = 'Thank you for submitting the form';
+                                feedbackMessage.innerText = 'Thank you for submitting the form';
                                 clearForm(FORM);
 
                             } else {
@@ -245,7 +244,7 @@ else: ?><!DOCTYPE html>
                                     'event_category': 'Contact Form',
                                     'event_label': 'user error'
                                 });
-                                errorMessage.innerText = 'There was an error with the form data';
+                                feedbackMessage.innerText = 'There was an error with the form data';
                             }
                         })
                         .catch(error=>{
@@ -253,7 +252,7 @@ else: ?><!DOCTYPE html>
                                 'event_category': 'Contact Form',
                                 'event_label': 'server response error'
                             });
-                            errorMessage.innerText = 'There was an error with the server';
+                            feedbackMessage.innerText = 'There was an error with the server';
                             throw new Error(error);
                         })
                 }

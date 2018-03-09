@@ -63,6 +63,10 @@
             font-style: italic;
             font-size: .8rem;
         }
+        .subtitle{
+            font-size: 1.1;
+            color: #9f9f9f;
+        }
 
         @media screen and (max-width: 950px){
             .wrap{
@@ -95,6 +99,7 @@
         <article class="page-article">
             <header class="article-header">
                 <h1>Article Title goes here</h1>
+                <p class="subtitle">This page tracks the impressions made by the article footer.</p>
             </header>
             <main>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur nunc tortor, feugiat vitae facilisis non, ullamcorper et lacus. Mauris porttitor tempus lorem, non aliquet velit tristique ut. Suspendisse vitae quam accumsan, lacinia ipsum id, porta sem. Etiam sit amet erat et sem scelerisque maximus. Donec eget mattis enim. Cras nec aliquam lectus, posuere consequat risus. Aliquam accumsan, velit id molestie interdum, erat est commodo tellus, sit amet tincidunt lectus mauris sit amet sapien. Curabitur eu dui non tellus sagittis pellentesque vel in neque. Integer laoreet in odio id aliquet. Quisque fermentum sed sapien sed congue. Nam in massa ac tortor fringilla sodales at nec dui. Nulla condimentum at odio nec feugiat. Nullam et fermentum turpis. Maecenas facilisis iaculis turpis. Vestibulum quis fringilla tellus, et eleifend tortor. Pellentesque vel mi quis purus vehicula mattis.</p>
